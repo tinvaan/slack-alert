@@ -1,3 +1,4 @@
 ipdb==0.13.11
 pytest==7.2.1
 pytest-sugar==0.9.6
+pytest-recording==0.12.2

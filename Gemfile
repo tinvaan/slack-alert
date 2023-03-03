@@ -46,3 +46,8 @@ group :development do
   # gem "spring"
 end
 
+# ActiveJob queue backend
+gem "sidekiq", "~> 7.0"
+
+# Slack SDK for Ruby
+gem "slack-ruby-client", "~> 2.0.0"

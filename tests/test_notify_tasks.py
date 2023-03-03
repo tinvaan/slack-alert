@@ -6,6 +6,7 @@ from alert.notify import app
 from alert.notify.tasks import slack
 
 
+@pytest.mark.usefixtures('spam')
 class TestNotifyTasks(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -15,7 +16,7 @@ class TestNotifyTasks(unittest.TestCase):
 
     def setUp(self):
         self.url = 'http://%s:%s' % (self.config.get('ALERT_SERVICE_HOST'),
-                              self.config.get('ALERT_SERVICE_PORT'))
+                                     self.config.get('ALERT_SERVICE_PORT'))
 
     def test_bot(self):
         with self.app.app_context():
@@ -25,18 +26,7 @@ class TestNotifyTasks(unittest.TestCase):
     @pytest.mark.vcr
     def test_send(self):
         with self.app.app_context():
-            r = slack.send(payload={
-                "RecordType": "Bounce",
-                "Type": "SpamNotification",
-                "TypeCode": 512,
-                "Name": "Spam notification",
-                "Tag": "",
-                "MessageStream": "outbound",
-                "Description": "The message was delivered, but was either blocked by the user, or classified as spam, bulk mail, or had rejected content.",
-                "Email": "zaphod@example.com",
-                "From": "notifications@honeybadger.io",
-                "BouncedAt": "2023-02-27T21:41:30Z",
-            })
+            r = slack.send(payload=self.spam)
             self.assertIsNotNone(r)
             self.assertTrue(r.get('ok'))
             self.assertIsInstance(r.get('channel'), str)

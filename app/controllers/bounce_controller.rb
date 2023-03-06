@@ -1,23 +1,34 @@
 # frozen_string_literal: true
 
 class BounceController < ApplicationController
-  def notify
-    record = JSON.parse(request.body.read)
+  before_action :parse, only: [:notify]
 
-    if record['RecordType'] == 'Bounce'
-      if record['Type'] == 'SpamNotification' && record['TypeCode'] == 512
-        return SlackNotifyJob.set(queue: :spam).perform_later(record)
+  def notify
+    if @record && @record['RecordType'] == 'Bounce'
+      if @record['Type'] == 'SpamNotification' && @record['TypeCode'] == 512
+        return SlackNotifyJob.set(queue: :spam).perform_now(@record) # TODO: perform_later
       end
 
-      return [{
-        'Type': record['Type'],
-        'Email': record['Email'],
-        'BouncedAt': record['BouncedAt'],
-        'Description': record['Description'],
-        'Tag': record['Tag']
-      }, 200]
+      return render status: 200, json: {
+        'Type': @record['Type'],
+        'Email': @record['Email'],
+        'BouncedAt': @record['BouncedAt'],
+        'Description': @record['Description'],
+        'Tag': @record['Tag']
+      }
     end
 
-    [{ 'error': 'Bad Request' }, 400]
+    return render status: 400, json: { 'error': 'Bad Request' }
+  end
+
+  private
+
+  def parse
+    @record = JSON.parse(request.body.read)
+  rescue JSON::ParserError => e
+    print("\nFailed to parse request payload, #{request.body.read}")
+    print("\nException: #{e}")
+
+    @record = None
   end
 end

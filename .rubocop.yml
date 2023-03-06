@@ -1,5 +1,8 @@
+Metrics/MethodLength:
+  Max: 1000
+
 Style/Documentation:
   Enabled: false
 
-Metrics/MethodLength:
-  Max: 1000
+Style/RedundantReturn:
+  Enabled: false

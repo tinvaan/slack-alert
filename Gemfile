@@ -46,6 +46,8 @@ group :development do
   # gem "spring"
 end
 
+gem "json"
+
 # ActiveJob queue backend
 gem "sidekiq", "~> 7.0"
 

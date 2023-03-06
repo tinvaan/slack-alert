@@ -2,23 +2,23 @@
 
 require 'slack-ruby-client'
 
+Slack.configure do |config|
+  config.token = ENV['SLACK_BOT_TOKEN']
+  raise 'Missing SLACK_BOT_TOKEN!' unless config.token
+end
 
 class SlackNotifyJob < ApplicationJob
-  queue_as :spam
+  queue_as :default
 
   def perform(*args)
-    Slack.configure do |config|
-      config.token = ENV['SLACK_BOT_TOKEN']
-      raise 'Missing SLACK_BOT_TOKEN!' unless config.token
-    end
-
-    client :Slack::Realtime::Client.new
-    render :client.chat_postMessage(channel: '#spam', as_user: true, blocks: JSON.dump([
+    record = args.pop
+    client = Slack::Web::Client.new
+    message = [
       {
         'type': 'header',
         'text': {
           'type': 'plain_text',
-          'text': args[:'Name']
+          'text': record['Name']
         }
       },
       {
@@ -26,7 +26,7 @@ class SlackNotifyJob < ApplicationJob
         'fields': [
           {
             'type': 'mrkdwn',
-            'text': '*Email:* ' + args[:'Email']
+            'text': "*Email:* #{record['Email']}"
           }
         ]
       },
@@ -35,7 +35,7 @@ class SlackNotifyJob < ApplicationJob
         'fields': [
           {
             'type': 'mrkdwn',
-            'text': '*When:* ' + args[:'BouncedAt']
+            'text': "*When:* #{record['BouncedAt']}"
           }
         ]
       },
@@ -43,10 +43,10 @@ class SlackNotifyJob < ApplicationJob
         'type': 'section',
         'text': {
           'type': 'mrkdwn',
-          'text': '*Description:* ' + args[:'Description']
+          'text': "*Description:* #{record['Description']}"
         }
       }
-    ]))
+    ]
+    client.chat_postMessage(channel: '#spam', blocks: JSON.dump(message))
   end
-
 end

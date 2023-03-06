@@ -2,19 +2,22 @@
 
 class BounceController < ApplicationController
   def notify
-    payload = JSON.parse(request.body.read)
-    if payload[:'RecordType'] == 'Bounce'
-      if payload[:'Type'] == 'SpamNotification' and payload[:'TypeCode'] == 512
-        return render :SlackNotifyJob.perform_later payload
+    record = JSON.parse(request.body.read)
 
-      return render json: {
-        'Type': payload[:'Type'],
-        'Email': payload[:'Email'],
-        'BouncedAt': payload[:'BouncedAt'],
-        'Description': payload[:'Description'],
-        'Tag': payload[:'Tag']
-      }, status: 200
+    if record['RecordType'] == 'Bounce'
+      if record['Type'] == 'SpamNotification' && record['TypeCode'] == 512
+        return SlackNotifyJob.set(queue: :spam).perform_later(record)
+      end
 
-    return render json: {'error': 'Bad Request'}, status: 400
+      return [{
+        'Type': record['Type'],
+        'Email': record['Email'],
+        'BouncedAt': record['BouncedAt'],
+        'Description': record['Description'],
+        'Tag': record['Tag']
+      }, 200]
+    end
+
+    [{ 'error': 'Bad Request' }, 400]
   end
 end

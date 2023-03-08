@@ -1,3 +1,10 @@
 __pycache__/
 .pytest_cache/
 tests/cassettes/
+
+config/
+db/
+log/
+test/
+tmp/
+

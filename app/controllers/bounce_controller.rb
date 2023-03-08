@@ -29,6 +29,6 @@ class BounceController < ApplicationController
     print("\nFailed to parse request payload, #{request.body.read}")
     print("\nException: #{e}")
 
-    @record = None
+    @record = nil
   end
 end

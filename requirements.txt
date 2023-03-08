@@ -1,2 +1,5 @@
+redis==4.5.1
 Flask==2.2.3
+celery==5.2.7
 slack-sdk==3.20.0
+importlib_metadata < 5.0

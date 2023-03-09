@@ -1,8 +1,8 @@
 
 from flask import request, Blueprint
 
+from .tasks import slack
 from .utils import signature
-from .tasks.slack import Slack
 
 
 alert = Blueprint('alert', __name__, url_prefix='/alert')
@@ -16,7 +16,7 @@ def notify():
 
     if bounce:
         if spam:
-            Slack(payload).notify()
+            slack.notify(payload)
         return signature(data=payload, status=202 if spam else 200)
 
     return signature(status=400)

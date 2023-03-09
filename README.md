@@ -101,6 +101,6 @@ Results (0.33s):
 ```
 
 ## TODO
-- https://github.com/tinvaan/slack-alert/issues/4
-- https://github.com/tinvaan/slack-alert/issues/5
-- https://github.com/tinvaan/slack-alert/issues/6
+- [Containerize the service](https://github.com/tinvaan/slack-alert/issues/4)
+- [Automated deployments](https://github.com/tinvaan/slack-alert/issues/5)
+- [Generate test coverage reports](https://github.com/tinvaan/slack-alert/issues/6)

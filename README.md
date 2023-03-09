@@ -1,6 +1,6 @@
 # slack-alert
 
-A lightweight microservice that sends a slack notification for a spam payload.
+A lightweight microservice that sends a slack notification for a spam payloads.
 
 ## Description
 
@@ -82,3 +82,25 @@ $ export SLACK_BOT_TOKEN='xoxb-<your>-<bot>-<token>'
     "Type": "SpamNotification"
     }
     ```
+
+### Running tests
+Launch the test suite using [pytest](https://docs.pytest.org).
+```bash
+$ pytest -s
+
+Test session starts (platform: darwin, Python 3.7.15, pytest 7.2.1, pytest-sugar 0.9.6)
+rootdir: /Users/harishnavnit/Workspaces/oss/honeybadger/alert
+plugins: sugar-0.9.6, recording-0.12.2
+collecting ...
+ tests/test_notify_tasks_slack.py ✓✓✓                        75% ███████▌
+ tests/test_notify_views.py ✓                             100% ██████████
+
+
+Results (0.33s):
+       4 passed
+```
+
+## TODO
+- https://github.com/tinvaan/slack-alert/issues/4
+- https://github.com/tinvaan/slack-alert/issues/5
+- https://github.com/tinvaan/slack-alert/issues/6

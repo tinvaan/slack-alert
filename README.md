@@ -1,6 +1,6 @@
 # slack-alert
 
-A lightweight microservice that sends a slack notification for a spam payloads.
+A lightweight microservice that sends a slack notification for spam payloads.
 
 ## Description
 

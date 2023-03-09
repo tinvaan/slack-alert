@@ -86,7 +86,8 @@ $ export SLACK_BOT_TOKEN='xoxb-<your>-<bot>-<token>'
 ### Running tests
 Launch the test suite using [pytest](https://docs.pytest.org).
 ```bash
-$ pytest -s
+(notify) $ pip install -r dev-requirements.txt
+(notify) $ pytest -s
 
 Test session starts (platform: darwin, Python 3.7.15, pytest 7.2.1, pytest-sugar 0.9.6)
 rootdir: /Users/harishnavnit/Workspaces/oss/honeybadger/alert

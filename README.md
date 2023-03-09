@@ -50,7 +50,7 @@ $ export SLACK_BOT_TOKEN='xoxb-<your>-<bot>-<token>'
 
 4) In a new tab/shell, start the `Celery` workers for the notification task queue.
     ```bash
-    celery --app alert.notify.queue worker
+    $ celery --app alert.notify.queue worker
 
 
     Darwin-22.3.0-arm64-arm-64bit 2023-03-09 13:08:36
